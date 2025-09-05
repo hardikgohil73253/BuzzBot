@@ -1,0 +1,49 @@
+app_name: ConcordiaBot
+version: 1.0
+debug: true
+
+llm_model:
+  provider: google-ai
+  name: gemini-2.0-flash-001
+ # temperature: 0
+ # max_tokens: 0
+  multi_turn: true
+
+embedding:
+  provider: huggingface
+  model_name: sentence-transformers/all-mpnet-base-v2
+
+splitter:
+  type: recursive
+  chunk_size: 1000
+  chunk_overlap: 200
+
+vector_store:
+  type: faiss
+  file_name: faiss_index_new
+  index_name: index
+
+data_files:
+  default_data_path: "../data"  # Path to source data files (text, documents, etc.)
+  raw_data_folder: "raw"
+  file_url_mapper_name: FileURLMapper_Concordia.csv
+
+document_search:
+  # Number of documents to retrieve from the vector store
+  num_documents: 5
+  # Minimum score threshold for document relevance in search results
+  # - "distance" (lower values indicate better matches)
+  # - "relevance" (higher values indicate better matches)
+  search_type: "distance"  # Default filter type
+#  keep_with_score: 0.5    # The keep_with_score value for filtering results
+  
+
+scraper:
+  base_url: "https://www.concordia.ca"
+  copy_to_data: false
+
+logging:
+  level: INFO
+  log_file: "concordiabot.log"
+  max_log_size: 10MB
+
